@@ -4,20 +4,24 @@
 %define gnunethome /var/lib/gnunet
 
 %define major	0
-%define util_major 4
+%define util_major 5
+%define arm_major 1
+%define datastore_major 1
 %define libname %mklibname %{name} %{major}
 %define libutilname %mklibname %{name}util %{util_major}
+%define libarmname %mklibname %{name}arm %{arm_major}
+%define libdatastorename %mklibname %{name}datastore %{datastore_major}
 %define devname %mklibname -d %{name}
 
-%define pre pre2
+%define pre %{nil}
 
 Name:		%{name}
-Version:	0.9.0
-Release:	%mkrel 0.%{pre}.1
+Version:	0.9.1
+Release:	%mkrel 1
 License:	GPLv2+
 Summary:	Secure and anonymous peer-to-peer file sharing
 URL:		http://gnunet.org/
-Source0:	http://gnunet.org/download/%{name}-%{version}%{pre}.tar.gz
+Source0:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}%{pre}.tar.gz
 Source1:	gnunetd.conf
 Source2:	init_gnunetd
 Patch0:		gnunet-0.9.0-build-fix.patch
@@ -25,12 +29,12 @@ Patch1:		gnunet-0.9.0pre2-link.patch
 Patch2:		gnunet-0.9.0pre2-conf.patch
 Group:		Networking/File transfer
 BuildRequires:	libextractor-devel
-BuildRequires:  libxml2-devel
-BuildRequires:  curl-devel
+BuildRequires:	libxml2-devel
+BuildRequires:	curl-devel
 BuildRequires:	libgcrypt-devel
-BuildRequires:  gawk
-BuildRequires:  libgmp-devel
-BuildRequires:  libgtk+2.0-devel
+BuildRequires:	gawk
+BuildRequires:	libgmp-devel
+BuildRequires:	libgtk+2.0-devel
 BuildRequires:	libglade2.0-devel
 BuildRequires:	gettext-devel
 BuildRequires:	sqlite3-devel
@@ -41,7 +45,8 @@ BuildRequires:	libmicrohttpd-devel
 BuildRequires:	libncursesw-devel
 BuildRequires:	libltdl-devel
 Suggests:	mysql-client
-Requires:	%{libname} = %{version}-%{release}
+Requires(pre):	rpm-helper
+#Requires:	%{libname} = %{version}-%{release}
 
 %description
 GNUnet is a framework for secure peer-to-peer networking that does not
@@ -66,24 +71,42 @@ Group:		System/Libraries
 %description -n %libutilname
 Library for GNUnet.
 
+%package -n %libarmname
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %libarmname
+Library for GNUnet.
+
+%package -n %libdatastorename
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %libdatastorename
+Library for GNUnet.
+
 %package -n %devname
 Summary:	Development files for %{libname}
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
 Requires:	%{libname} = %{version}-%{release}
 Requires:	%{libutilname} = %{version}-%{release}
+Requires:	%{libarmname} = %{version}-%{release}
+Requires:	%{libdatastorename} = %{version}-%{release}
 
 %description -n %devname
 Development files for %{libname}.
 
 %prep
 %setup -q -n %{name}-%{version}%{pre}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+#patch0 -p1
+#patch1 -p1
+#patch2 -p1
+mv AUTHORS AUTHORS.old
+iconv -f ISO_8859-1 -t UTF-8 AUTHORS.old -o AUTHORS
 
 %build
-autoreconf
+#autoreconf
 %configure2_5x
 # makefile doesn't support running multiple jobs simultaneously
 %{__make}
@@ -96,7 +119,8 @@ autoreconf
 #{__install} -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}d.conf
 %{__mkdir_p} %{buildroot}%{_initrddir}
 %{__install} -m0755 %{SOURCE2} %{buildroot}%{_initrddir}/%{name}d
-%{__ln_s} %{_datadir}/%{name}/defaults.conf %{buildroot}%{_sysconfdir}/gnunet.conf
+%{__ln_s} %{_datadir}/%{name}/config.d %{buildroot}%{_sysconfdir}/gnunet.d
+%{__rm} -f %{buildroot}%{_libdir}/*.la
 
 %find_lang %{name}
 
@@ -123,12 +147,13 @@ rm -rf %{buildroot}
 %files -f %{name}.lang
 %doc AUTHORS ChangeLog NEWS README
 %attr(0700, %{gnunetuser}, %{gnunetuser}) %dir %{gnunethome}
-%config(noreplace) %{_sysconfdir}/%{name}.conf
-%config %{_initrddir}/%{name}d
+%config %{_sysconfdir}/gnunet.d
+%{_initrddir}/%{name}d
 %{_bindir}/*
 %{_libdir}/%{name}
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/*
+%{_mandir}/man1/%{name}-*
 
 %files -n %libname
 %{_libdir}/lib%{name}*.so.%{major}*
@@ -136,10 +161,16 @@ rm -rf %{buildroot}
 %files -n %libutilname
 %{_libdir}/lib%{name}util.so.%{util_major}*
 
+%files -n %libarmname
+%{_libdir}/lib%{name}arm.so.%{arm_major}*
+
+%files -n %libdatastorename
+%{_libdir}/lib%{name}datastore.so.%{datastore_major}*
+
 %files -n %devname
 %{_libdir}/lib%{name}*.so
 %{_libdir}/pkgconfig/*.pc
-%{_libdir}/lib%{name}*.la
+#%{_libdir}/lib%{name}*.la
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*
 
