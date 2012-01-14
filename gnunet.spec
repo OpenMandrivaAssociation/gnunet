@@ -13,15 +13,13 @@
 %define libdatastorename %mklibname %{name}datastore %{datastore_major}
 %define devname %mklibname -d %{name}
 
-%define pre %{nil}
-
 Name:		%{name}
 Version:	0.9.1
 Release:	%mkrel 1
 License:	GPLv2+
 Summary:	Secure and anonymous peer-to-peer file sharing
 URL:		http://gnunet.org/
-Source0:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}%{pre}.tar.gz
+Source0:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}.tar.gz
 Source1:	gnunetd.conf
 Source2:	init_gnunetd
 Patch0:		gnunet-0.9.0-build-fix.patch
@@ -98,7 +96,7 @@ Requires:	%{libdatastorename} = %{version}-%{release}
 Development files for %{libname}.
 
 %prep
-%setup -q -n %{name}-%{version}%{pre}
+%setup -q -n %{name}-%{version}
 #patch0 -p1
 #patch1 -p1
 #patch2 -p1
