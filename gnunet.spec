@@ -15,16 +15,13 @@
 
 Name:		%{name}
 Version:	0.9.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2+
 Summary:	Secure and anonymous peer-to-peer file sharing
 URL:		http://gnunet.org/
 Source0:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}.tar.gz
 Source1:	gnunetd.conf
 Source2:	init_gnunetd
-Patch0:		gnunet-0.9.0-build-fix.patch
-Patch1:		gnunet-0.9.0pre2-link.patch
-Patch2:		gnunet-0.9.0pre2-conf.patch
 Group:		Networking/File transfer
 BuildRequires:	libextractor-devel
 BuildRequires:	libxml2-devel
@@ -97,14 +94,10 @@ Development files for %{libname}.
 
 %prep
 %setup -q -n %{name}-%{version}
-#patch0 -p1
-#patch1 -p1
-#patch2 -p1
 mv AUTHORS AUTHORS.old
 iconv -f ISO_8859-1 -t UTF-8 AUTHORS.old -o AUTHORS
 
 %build
-#autoreconf
 %configure2_5x
 # makefile doesn't support running multiple jobs simultaneously
 %{__make}
@@ -121,9 +114,6 @@ iconv -f ISO_8859-1 -t UTF-8 AUTHORS.old -o AUTHORS
 %{__rm} -f %{buildroot}%{_libdir}/*.la
 
 %find_lang %{name}
-
-%clean
-rm -rf %{buildroot}
 
 %pre
 %_pre_useradd %{gnunetuser} %{gnunethome} /bin/false
