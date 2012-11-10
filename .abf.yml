@@ -1,0 +1,4 @@
+sources:
+  "gnunet-0.9.1.tar.gz:"	99ce58986195a10dc529ecfc33416b100fe9a00c
+  "gnunetd.conf:"	471808cf453e59dd7e4f02625221115988a5551a
+  "init_gnunetd:"	8a2c283ec497e2f732462c62c8f172cc0c93c664
