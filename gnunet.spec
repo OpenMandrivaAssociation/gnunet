@@ -15,7 +15,7 @@
 
 Name:		%{name}
 Version:	0.9.1
-Release:	%mkrel 2
+Release:	3
 License:	GPLv2+
 Summary:	Secure and anonymous peer-to-peer file sharing
 URL:		http://gnunet.org/
@@ -23,25 +23,24 @@ Source0:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}.tar.gz
 Source1:	gnunetd.conf
 Source2:	init_gnunetd
 Group:		Networking/File transfer
-BuildRequires:	libextractor-devel
-BuildRequires:	libxml2-devel
+BuildRequires:	pkgconfig(libextractor)
+BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	curl-devel
 BuildRequires:	libgcrypt-devel
 BuildRequires:	gawk
-BuildRequires:	libgmp-devel
-BuildRequires:	libgtk+2.0-devel
-BuildRequires:	libglade2.0-devel
+BuildRequires:	gmp-devel
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(libglade-2.0)
 BuildRequires:	gettext-devel
 BuildRequires:	sqlite3-devel
 BuildRequires:	mysql-devel
 BuildRequires:	zlib-devel
 BuildRequires:	openssl-devel
-BuildRequires:	libmicrohttpd-devel
-BuildRequires:	libncursesw-devel
+BuildRequires:	pkgconfig(libmicrohttpd)
+BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	libltdl-devel
 Suggests:	mysql-client
 Requires(pre):	rpm-helper
-#Requires:	%{libname} = %{version}-%{release}
 
 %description
 GNUnet is a framework for secure peer-to-peer networking that does not
@@ -162,3 +161,41 @@ iconv -f ISO_8859-1 -t UTF-8 AUTHORS.old -o AUTHORS
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*
 
+
+
+%changelog
+* Mon Jan 16 2012 Dmitry Mikhirev <dmikhirev@mandriva.org> 0.9.1-2mdv2012.0
++ Revision: 761718
+- spec cleanup
+- unused pathes removed
+
+  + Per Øyvind Karlsen <peroyvind@mandriva.org>
+    - get rid of %%pre variable that's not really in use and that breaks %%pre script
+
+* Mon Jan 09 2012 Dmitry Mikhirev <dmikhirev@mandriva.org> 0.9.1-1
++ Revision: 759222
+- new version 0.9.1
+
+* Thu Aug 11 2011 Andrey Bondrov <abondrov@mandriva.org> 0.9.0-0.pre2.1
++ Revision: 693952
+- Update patch1
+- imported package gnunet
+
+
+* Thu Aug 11 2011 Andrey Bondrov <bondrov@math.dvgu.ru> 0.9.0-0.pre2.1mdv2011.0
+- Port to 2011
+- New version
+- Major spec rewrite
+
+* Wed Apr 02 2008 Anssi Hannula <anssi@zarb.org> 0.7.3-1plf2008.1
+- add to PLF
+- ensure major correctness
+- do not package COPYING, it is GPLv2+
+- provide gnunet-devel
+- fix library groups
+- split library package due to different majors
+- fix plugin loading on lib64 systems
+- do not use daemonize
+
+* Fri Mar 21 2008 Nicolas Vigier <boklm@mars-attacks.org> 0.7.3-1mdv2008.1
+- first version

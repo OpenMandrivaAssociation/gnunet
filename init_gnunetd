@@ -1,0 +1,83 @@
+#!/bin/sh
+#
+### BEGIN INIT INFO
+# Provides: gnunet
+# Required-Start: $network
+# Required-Stop: $network
+# Default-Start:
+# Default-Stop: 0 1 6
+# Short-Description: GNUnet daemon
+# Description: GNUnet is an anonymous distributed secure network
+#               this server is required to connect to the network,
+#               it will open a TCP port to communicate with the
+#               GUI and an UDP port to communicate with the world.
+#               The configuration file /etc/gnunetd.conf will be used.
+### END INIT INFO
+
+# Source function library.
+. /lib/lsb/init-functions
+
+# Get config.
+. /etc/sysconfig/network
+
+# Just in case gnunetd is in /usr/local and not on the path
+GNUNETD=/usr/bin/gnunet-arm
+
+# Check that networking is up.
+if [ ${NETWORKING} = "no" ]
+then
+	exit 0
+fi
+
+RETVAL=0
+prog="gnunet-arm"
+
+start() {
+        gprintf "Starting %s: " "$prog"
+        daemon --user gnunetd $GNUNETD -s -c /etc/gnunet.conf
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] && touch /var/lock/subsys/gnunetd
+	return $RETVAL
+}
+
+show_status() {
+	status gnunetd
+}
+
+stop() {
+	gprintf "Stopping %s: " "$prog" 
+	killproc gnunet-arm
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/gnunetd
+	return $RETVAL
+}
+
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  status)
+	show_status
+	;;
+  restart|reload)
+	stop
+	start
+	;;
+  condrestart)
+	if [ -f /var/lock/subsys/gnunetd ]; then
+            stop
+            start
+        fi
+	;;
+  *)
+	gprintf "Usage: %s {start|stop|status|restart|reload|condrestart}\n" "$0"
+	exit 1
+esac
+
+exit $RETVAL
