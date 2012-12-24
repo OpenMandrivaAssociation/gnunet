@@ -1,46 +1,64 @@
-%define name gnunet
-
 %define gnunetuser gnunetd
 %define gnunethome /var/lib/gnunet
 
-%define major	0
-%define util_major 5
-%define arm_major 1
-%define datastore_major 1
+%define major		0
 %define libname %mklibname %{name} %{major}
+%define util_major	9
 %define libutilname %mklibname %{name}util %{util_major}
+%define arm_major	1
 %define libarmname %mklibname %{name}arm %{arm_major}
+%define datastore_major	1
 %define libdatastorename %mklibname %{name}datastore %{datastore_major}
+%define	stats_major	4
+%define libnamestats	%mklibname %{name}stats %{stats_major}
+%define	frag_major	2
+%define libnamefrag	%mklibname %{name}fragmentation %{frag_major}
+%define	fs_major	2
+%define libnamefs	%mklibname %{name}fs %{fs_major}
+%define	mesh_major	1
+%define libnamemesh	%mklibname %{name}mesh %{mesh_major}
+%define	block_major	2
+%define libnameblock	%mklibname %{name}meshblock %{block_major}
+%define	regex_major	1
+%define libnameregex	%mklibname %{name}regex %{regex_major}
+%define	stream_major	1
+%define libnamestream	%mklibname %{name}stream %{stream_major}
+%define	test_major	1
+%define libnametest	%mklibname %{name}test %{test_major}
+%define	trans_major	2
+%define libnametrans	%mklibname %{name}transport %{trans_major}
 %define devname %mklibname -d %{name}
 
-Name:		%{name}
-Version:	0.9.1
-Release:	3
-License:	GPLv2+
 Summary:	Secure and anonymous peer-to-peer file sharing
-URL:		http://gnunet.org/
-Source0:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}.tar.gz
-Source1:	gnunetd.conf
-Source2:	init_gnunetd
+Name:		gnunet
+Version:	0.9.5
+Release:	1
+License:	GPLv2+
 Group:		Networking/File transfer
-BuildRequires:	pkgconfig(libextractor)
-BuildRequires:	pkgconfig(libxml-2.0)
-BuildRequires:	curl-devel
-BuildRequires:	libgcrypt-devel
+Url:		http://gnunet.org/
+Source0:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}.tar.gz
+Source1:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}.tar.gz.sig
+Source2:	gnunetd.conf
+Source3:	init_gnunetd
+
 BuildRequires:	gawk
-BuildRequires:	gmp-devel
-BuildRequires:	pkgconfig(gtk+-2.0)
-BuildRequires:	pkgconfig(libglade-2.0)
 BuildRequires:	gettext-devel
-BuildRequires:	sqlite3-devel
-BuildRequires:	mysql-devel
-BuildRequires:	zlib-devel
-BuildRequires:	openssl-devel
-BuildRequires:	pkgconfig(libmicrohttpd)
-BuildRequires:	pkgconfig(ncursesw)
+BuildRequires:	gmp-devel
 BuildRequires:	libltdl-devel
-Suggests:	mysql-client
+BuildRequires:	mysql-devel
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(libcurl)
+BuildRequires:	pkgconfig(libextractor)
+BuildRequires:	pkgconfig(libgcrypt)
+BuildRequires:	pkgconfig(libglade-2.0)
+BuildRequires:	pkgconfig(libmicrohttpd)
+BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(ncurses)
+BuildRequires:	pkgconfig(openssl)
+BuildRequires:	pkgconfig(sqlite3)
+BuildRequires:	pkgconfig(zlib)
 Requires(pre):	rpm-helper
+Suggests:	mysql-client
 
 %description
 GNUnet is a framework for secure peer-to-peer networking that does not
@@ -51,35 +69,98 @@ model to allocate resources. Peers in GNUnet monitor each others behavior
 with respect to resource usage; peers that contribute to the network
 are rewarded with better service.
 
-%package -n %libname
+%package -n %{libname}
 Summary:	Libraries for GNUnet
 Group:		System/Libraries
 
-%description -n %libname
+%description -n %{libname}
 Libraries for GNUnet.
 
-%package -n %libutilname
+%package -n %{libutilname}
 Summary:	Library for GNUnet
 Group:		System/Libraries
 
-%description -n %libutilname
+%description -n %{libutilname}
 Library for GNUnet.
 
-%package -n %libarmname
+%package -n %{libarmname}
 Summary:	Library for GNUnet
 Group:		System/Libraries
 
-%description -n %libarmname
+%description -n %{libarmname}
 Library for GNUnet.
 
-%package -n %libdatastorename
+%package -n %{libdatastorename}
 Summary:	Library for GNUnet
 Group:		System/Libraries
 
-%description -n %libdatastorename
+%description -n %{libdatastorename}
 Library for GNUnet.
 
-%package -n %devname
+%package -n %{libnamestats}
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %{libnamestats}
+Library for GNUnet.
+
+%package -n %{libnamefrag}
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %{libnamefrag}
+Library for GNUnet.
+
+%package -n %{libnamefs}
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %{libnamefs}
+Library for GNUnet.
+
+%package -n %{libnamemesh}
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %{libnamemesh}
+Library for GNUnet.
+
+%package -n %{libnameblock}
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %{libnameblock}
+Library for GNUnet.
+
+%package -n %{libnameregex}
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %{libnameregex}
+Library for GNUnet.
+
+%package -n %{libnamestream}
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %{libnamestream}
+Library for GNUnet.
+
+%package -n %{libnametest}
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %{libnametest}
+Library for GNUnet.
+
+%package -n %{libnametrans}
+Summary:	Library for GNUnet
+Group:		System/Libraries
+
+%description -n %{libnametrans}
+Library for GNUnet.
+
+%package -n %{devname}
 Summary:	Development files for %{libname}
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
@@ -87,8 +168,17 @@ Requires:	%{libname} = %{version}-%{release}
 Requires:	%{libutilname} = %{version}-%{release}
 Requires:	%{libarmname} = %{version}-%{release}
 Requires:	%{libdatastorename} = %{version}-%{release}
+Requires:	%{libnamestats} = %{version}-%{release}
+Requires:	%{libnamefrag} = %{version}-%{release}
+Requires:	%{libnamefs} = %{version}-%{release}
+Requires:	%{libnamemesh} = %{version}-%{release}
+Requires:	%{libnameblock} = %{version}-%{release}
+Requires:	%{libnameregex} = %{version}-%{release}
+Requires:	%{libnamestream} = %{version}-%{release}
+Requires:	%{libnametest} = %{version}-%{release}
+Requires:	%{libnametrans} = %{version}-%{release}
 
-%description -n %devname
+%description -n %{devname}
 Development files for %{libname}.
 
 %prep
@@ -99,18 +189,17 @@ iconv -f ISO_8859-1 -t UTF-8 AUTHORS.old -o AUTHORS
 %build
 %configure2_5x
 # makefile doesn't support running multiple jobs simultaneously
-%{__make}
+make LIBS='-lz -lm'
 
 %install
-%{__rm} -rf %{buildroot}
 %makeinstall_std
-%{__mkdir_p} %{buildroot}%{gnunethome}
-%{__mkdir_p} %{buildroot}%{_sysconfdir}
-#{__install} -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}d.conf
-%{__mkdir_p} %{buildroot}%{_initrddir}
-%{__install} -m0755 %{SOURCE2} %{buildroot}%{_initrddir}/%{name}d
-%{__ln_s} %{_datadir}/%{name}/config.d %{buildroot}%{_sysconfdir}/gnunet.d
-%{__rm} -f %{buildroot}%{_libdir}/*.la
+mkdir -p %{buildroot}%{gnunethome}
+mkdir -p %{buildroot}%{_sysconfdir}
+install -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}d.conf
+mkdir -p %{buildroot}%{_initrddir}
+install -m0755 %{SOURCE2} %{buildroot}%{_initrddir}/%{name}d
+ln -s %{_datadir}/%{name}/config.d %{buildroot}%{_sysconfdir}/gnunet.d
+rm -f %{buildroot}%{_libdir}/*.la
 
 %find_lang %{name}
 
@@ -126,76 +215,61 @@ iconv -f ISO_8859-1 -t UTF-8 AUTHORS.old -o AUTHORS
 %postun
 %_postun_userdel %gnunetuser
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
 %files -f %{name}.lang
 %doc AUTHORS ChangeLog NEWS README
 %attr(0700, %{gnunetuser}, %{gnunetuser}) %dir %{gnunethome}
 %config %{_sysconfdir}/gnunet.d
+%config %{_sysconfdir}/gnunetd.conf
 %{_initrddir}/%{name}d
 %{_bindir}/*
 %{_libdir}/%{name}
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/*
 %{_mandir}/man1/%{name}-*
+%{_mandir}/man5/gnunet.conf.5*
 
-%files -n %libname
+%files -n %{libname}
 %{_libdir}/lib%{name}*.so.%{major}*
 
-%files -n %libutilname
+%files -n %{libutilname}
 %{_libdir}/lib%{name}util.so.%{util_major}*
 
-%files -n %libarmname
+%files -n %{libarmname}
 %{_libdir}/lib%{name}arm.so.%{arm_major}*
 
-%files -n %libdatastorename
+%files -n %{libdatastorename}
 %{_libdir}/lib%{name}datastore.so.%{datastore_major}*
 
-%files -n %devname
+%files -n %{libnamestats}
+%{_libdir}/libgnunetats.so.%{stats_major}*
+
+%files -n %{libnamefrag}
+%{_libdir}/libgnunetfragmentation.so.%{frag_major}*
+
+%files -n %{libnamefs}
+%{_libdir}/libgnunetfs.so.%{fs_major}*
+
+%files -n %{libnamemesh}
+%{_libdir}/libgnunetmesh.so.%{mesh_major}*
+
+%files -n %{libnameblock}
+%{_libdir}/libgnunetmeshblock.so.%{block_major}*
+
+%files -n %{libnameregex}
+%{_libdir}/libgnunetregex.so.%{regex_major}*
+
+%files -n %{libnamestream}
+%{_libdir}/libgnunetstream.so.%{stream_major}*
+
+%files -n %{libnametest}
+%{_libdir}/libgnunettesting.so.%{test_major}*
+
+%files -n %{libnametrans}
+%{_libdir}/libgnunettransport.so.%{trans_major}*
+
+%files -n %{devname}
 %{_libdir}/lib%{name}*.so
 %{_libdir}/pkgconfig/*.pc
-#%{_libdir}/lib%{name}*.la
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*
 
-
-
-%changelog
-* Mon Jan 16 2012 Dmitry Mikhirev <dmikhirev@mandriva.org> 0.9.1-2mdv2012.0
-+ Revision: 761718
-- spec cleanup
-- unused pathes removed
-
-  + Per Øyvind Karlsen <peroyvind@mandriva.org>
-    - get rid of %%pre variable that's not really in use and that breaks %%pre script
-
-* Mon Jan 09 2012 Dmitry Mikhirev <dmikhirev@mandriva.org> 0.9.1-1
-+ Revision: 759222
-- new version 0.9.1
-
-* Thu Aug 11 2011 Andrey Bondrov <abondrov@mandriva.org> 0.9.0-0.pre2.1
-+ Revision: 693952
-- Update patch1
-- imported package gnunet
-
-
-* Thu Aug 11 2011 Andrey Bondrov <bondrov@math.dvgu.ru> 0.9.0-0.pre2.1mdv2011.0
-- Port to 2011
-- New version
-- Major spec rewrite
-
-* Wed Apr 02 2008 Anssi Hannula <anssi@zarb.org> 0.7.3-1plf2008.1
-- add to PLF
-- ensure major correctness
-- do not package COPYING, it is GPLv2+
-- provide gnunet-devel
-- fix library groups
-- split library package due to different majors
-- fix plugin loading on lib64 systems
-- do not use daemonize
-
-* Fri Mar 21 2008 Nicolas Vigier <boklm@mars-attacks.org> 0.7.3-1mdv2008.1
-- first version
