@@ -18,8 +18,10 @@ BuildRequires:	gettext-devel
 BuildRequires:	gmp-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	mysql-devel
+BuildRequires:	locales-extra-charsets
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(libcurl)
+BuildRequires:	pkgconfig(libcurl-gnutls)
 BuildRequires:	pkgconfig(libextractor)
 BuildRequires:	pkgconfig(libgcrypt) >= 1.6.0
 BuildRequires:	pkgconfig(libglade-2.0)
@@ -36,6 +38,7 @@ BuildRequires:	pkgconfig(ogg)
 BuildRequires:	pkgconfig(opus)
 BuildRequires:	pkgconfig(vorbis)
 BuildRequires:	pkgconfig(libpulse)
+BuildRequires:	pkgconfig(libunistring)
 # Just so the path can be detected
 BuildRequires:	openssh-clients
 BuildRequires:	doxygen
