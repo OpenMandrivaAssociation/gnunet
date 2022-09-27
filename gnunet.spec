@@ -1,20 +1,13 @@
 %define gnunetuser gnunetd
 %define gnunethome /var/lib/gnunet
 
-%define major 0
-%define util_major 5
-%define arm_major 1
-%define datastore_major 1
-%define libname %mklibname %{name} %{major}
-%define libutil %mklibname %{name}util %{util_major}
-%define libarm %mklibname %{name}arm %{arm_major}
-%define libdatastore %mklibname %{name}datastore %{datastore_major}
+%define libs arm ats block blockgroup cadet consensus conversation core curl datacache datastore dht did dns fragmentation friends fs gns gnsrecord gnsrecordjson hello identity json messenger microphone namecache namestore natauto natnew nse nt peerinfo peerstore pq reclaim regex regexblock rest revocation scalarproduct secretsharing set seti setu speaker sq statistics testbed testbedlogger testing testingdhtu transport transportapplication transportcommunicator transportcore transportmonitor transporttesting transporttesting2 util vpn
 %define devname %mklibname -d %{name}
 
 Summary:	Secure and anonymous peer-to-peer file sharing
 Name:		gnunet
-Version:	0.10.0
-Release:	2
+Version:	0.17.6
+Release:	1
 License:	GPLv2+
 Group:		Networking/File transfer
 Url:		http://gnunet.org/
@@ -49,15 +42,20 @@ with respect to resource usage; peers that contribute to the network
 are rewarded with better service.
 
 %files -f %{name}.lang
-%doc AUTHORS ChangeLog NEWS README
+%doc %{_docdir}/gnunet
 %attr(0700, %{gnunetuser}, %{gnunetuser}) %dir %{gnunethome}
 %config %{_sysconfdir}/gnunet.d
 %{_initrddir}/%{name}d
 %{_bindir}/*
 %{_libdir}/%{name}
+%{_libdir}/libnss_gns*.so.*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/*
+%{_datadir}/applications/gnunet-uri.desktop
 %{_mandir}/man1/%{name}-*
+%{_infodir}/gnunet.info*
+%{_mandir}/man1/gnunet.1*
+%{_mandir}/man5/gnunet.conf.5*
 
 %pre
 %_pre_useradd %{gnunetuser} %{gnunethome} /bin/false
@@ -73,52 +71,19 @@ are rewarded with better service.
 
 
 #----------------------------------------------------------------------------
-
-%package -n %{libname}
-Summary:	Libraries for GNUnet
+%(for i in %{libs}; do
+	cat <<EOF
+%package -n %{_lib}%{name}$i
+Summary:	$i libraries for GNUnet
 Group:		System/Libraries
 
-%description -n %{libname}
-Libraries for GNUnet.
+%description -n %{_lib}%{name}$i
+$i libraries for GNUnet
 
-%files -n %{libname}
-%{_libdir}/lib%{name}*.so.%{major}*
-
-#----------------------------------------------------------------------------
-
-%package -n %{libutil}
-Summary:	Library for GNUnet
-Group:		System/Libraries
-
-%description -n %{libutil}
-Library for GNUnet.
-
-%files -n %{libutil}
-%{_libdir}/lib%{name}util.so.%{util_major}*
-
-#----------------------------------------------------------------------------
-
-%package -n %{libarm}
-Summary:	Library for GNUnet
-Group:		System/Libraries
-
-%description -n %{libarm}
-Library for GNUnet.
-
-%files -n %{libarm}
-%{_libdir}/lib%{name}arm.so.%{arm_major}*
-
-#----------------------------------------------------------------------------
-
-%package -n %{libdatastore}
-Summary:	Library for GNUnet
-Group:		System/Libraries
-
-%description -n %{libdatastore}
-Library for GNUnet.
-
-%files -n %{libdatastore}
-%{_libdir}/lib%{name}datastore.so.%{datastore_major}*
+%files -n %{_lib}%{name}$i
+%{_libdir}/lib%{name}$i.so.*
+EOF
+done)
 
 #----------------------------------------------------------------------------
 
@@ -126,10 +91,10 @@ Library for GNUnet.
 Summary:	Development files for %{libname}
 Group:		Development/C
 Provides:	%{name}-devel = %{EVRD}
-Requires:	%{libname} = %{EVRD}
-Requires:	%{libutil} = %{EVRD}
-Requires:	%{libarm} = %{EVRD}
-Requires:	%{libdatastore} = %{EVRD}
+%(for i in %{libs}; do
+	echo "Requires: %{_lib}%{name}$i = %{EVRD}"
+done
+)
 
 %description -n %{devname}
 Development files for %{libname}.
@@ -139,21 +104,20 @@ Development files for %{libname}.
 %{_libdir}/pkgconfig/*.pc
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*
+%{_datadir}/aclocal/gnunet.m4
 
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}-%{version}
-mv AUTHORS AUTHORS.old
-iconv -f ISO_8859-1 -t UTF-8 AUTHORS.old -o AUTHORS
+%autosetup -p1
 
 %build
-%configure2_5x
+%configure
 # makefile doesn't support running multiple jobs simultaneously
 make
 
 %install
-%makeinstall_std
+%make_install
 mkdir -p %{buildroot}%{gnunethome}
 mkdir -p %{buildroot}%{_sysconfdir}
 mkdir -p %{buildroot}%{_initrddir}
