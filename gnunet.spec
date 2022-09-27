@@ -29,6 +29,9 @@ BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(jansson)
+BuildRequires:	pkgconfig(bluez)
+BuildRequires:	doxygen
 Suggests:	mysql-client
 Requires(pre):	rpm-helper
 
