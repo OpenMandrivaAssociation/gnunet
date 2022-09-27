@@ -31,6 +31,13 @@ BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(jansson)
 BuildRequires:	pkgconfig(bluez)
+BuildRequires:	pkgconfig(libsodium)
+BuildRequires:	pkgconfig(ogg)
+BuildRequires:	pkgconfig(opus)
+BuildRequires:	pkgconfig(vorbis)
+BuildRequires:	pkgconfig(libpulse)
+# Just so the path can be detected
+BuildRequires:	openssh-clients
 BuildRequires:	doxygen
 Suggests:	mysql-client
 Requires(pre):	rpm-helper
