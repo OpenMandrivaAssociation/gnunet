@@ -19,7 +19,6 @@ BuildRequires:	gmp-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	mysql-devel
 BuildRequires:	locales-extra-charsets
-BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(libcurl-gnutls)
 BuildRequires:	pkgconfig(libextractor)
@@ -39,10 +38,14 @@ BuildRequires:	pkgconfig(opus)
 BuildRequires:	pkgconfig(vorbis)
 BuildRequires:	pkgconfig(libpulse)
 BuildRequires:	pkgconfig(libunistring)
-# Just so the path can be detected
-BuildRequires:	openssh-clients
+BuildRequires:	pkgconfig(libpq)
+BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(gstreamer-1.0)
 BuildRequires:	doxygen
 Suggests:	mysql-client
+# Just so the path can be detected
+BuildRequires:	openssh-clients
+BuildRequires:	iptables
 Requires(pre):	rpm-helper
 
 %description
