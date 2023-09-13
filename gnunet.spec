@@ -6,7 +6,7 @@
 
 Summary:	Secure and anonymous peer-to-peer file sharing
 Name:		gnunet
-Version:	0.17.6
+Version:	0.19.4
 Release:	1
 License:	GPLv2+
 Group:		Networking/File transfer
@@ -65,12 +65,13 @@ are rewarded with better service.
 %{_bindir}/*
 %{_libdir}/%{name}
 %{_libdir}/libnss_gns*.so.*
+%{_libdir}/libgnunetmy.so.*
+%{_libdir}/libgnunetmysql.so.*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/*
 %{_datadir}/applications/gnunet-uri.desktop
 %{_mandir}/man1/%{name}-*
 %{_infodir}/gnunet.info*
-%{_mandir}/man1/gnunet.1*
 %{_mandir}/man5/gnunet.conf.5*
 
 %pre
