@@ -130,6 +130,9 @@ Development files for %{libname}.
 
 %build
 %configure
+echo "===== config.log ====="
+cat config.log
+echo "======================"
 # makefile doesn't support running multiple jobs simultaneously
 make
 
