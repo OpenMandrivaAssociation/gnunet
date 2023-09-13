@@ -43,6 +43,8 @@ BuildRequires:	pkgconfig(libpq)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(gstreamer-1.0)
 BuildRequires:	doxygen
+# For pre_useradd macros and friends
+BuildRequires:	rpm-helper
 Suggests:	mysql-client
 # Just so the path can be detected
 BuildRequires:	openssh-clients
