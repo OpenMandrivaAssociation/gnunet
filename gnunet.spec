@@ -6,7 +6,7 @@
 
 Summary:	Secure and anonymous peer-to-peer file sharing
 Name:		gnunet
-Version:	0.19.4
+Version:	0.20.0
 Release:	1
 License:	GPLv2+
 Group:		Networking/File transfer
