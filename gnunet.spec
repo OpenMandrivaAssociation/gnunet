@@ -10,7 +10,7 @@ Version:	0.20.0
 Release:	1
 License:	GPLv2+
 Group:		Networking/File transfer
-Url:		http://gnunet.org/
+Url:		https://gnunet.org/
 Source0:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}.tar.gz
 Source1:	gnunetd.conf
 Source2:	init_gnunetd
