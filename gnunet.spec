@@ -6,7 +6,7 @@
 
 Summary:	Secure and anonymous peer-to-peer file sharing
 Name:		gnunet
-Version:	0.20.0
+Version:	0.28.0
 Release:	1
 License:	GPLv2+
 Group:		Networking/File transfer
@@ -14,7 +14,7 @@ Url:		https://gnunet.org/
 Source0:	ftp://ftp.gnu.org/gnu/gnunet/%{name}-%{version}.tar.gz
 Source1:	gnunetd.conf
 Source2:	init_gnunetd
-Patch0:		gnunet-0.19.4-no-Lusrlib.patch
+# dropped (no longer applies): Patch0:		gnunet-0.19.4-no-Lusrlib.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool-base
